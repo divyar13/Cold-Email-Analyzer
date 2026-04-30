@@ -18,7 +18,7 @@ function AuthSuccess() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flex items-center justify-center min-h-screen text-ink-muted" style={{ background: '#FAF9F6' }}>
+    <div className="flex items-center justify-center min-h-screen" style={{ background: '#0F172A', color: '#94A3B8' }}>
       Signing you in...
     </div>
   );
@@ -26,16 +26,16 @@ function AuthSuccess() {
 
 function AuthError() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-4" style={{ background: '#FAF9F6' }}>
-      <p className="font-serif text-lg text-ink">Authentication failed.</p>
-      <a href="/" className="text-sm text-slate-warm hover:underline">Go back home</a>
+    <div className="flex flex-col items-center justify-center min-h-screen gap-4" style={{ background: '#0F172A' }}>
+      <p className="text-lg font-semibold" style={{ color: '#F1F5F9' }}>Authentication failed.</p>
+      <a href="/" className="text-sm hover:underline" style={{ color: '#38BDF8' }}>Go back home</a>
     </div>
   );
 }
 
 function AppRoutes() {
   return (
-    <div className="min-h-screen" style={{ background: '#FAF9F6' }}>
+    <div className="min-h-screen" style={{ background: '#0F172A' }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

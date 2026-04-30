@@ -15,25 +15,28 @@ export default function RewrittenEmail({ original, rewritten }) {
   };
 
   return (
-    <div className="rounded-2xl shadow-soft" style={{ background: '#FEFDFB', border: '1px solid #EDE9E3' }}>
-      <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #F0EDE8' }}>
-        <h2 className="font-serif text-base font-semibold text-ink">Rewritten Email</h2>
+    <div className="rounded-2xl" style={{ background: '#1E293B', border: '1px solid #334155' }}>
+      <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #334155' }}>
+        <h2 className="text-sm font-semibold" style={{ color: '#F1F5F9' }}>Rewritten Email</h2>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowDiff(!showDiff)}
-            className="text-xs px-3 py-1.5 rounded-lg transition-all hover:bg-cream-200"
-            style={{ border: '1px solid #DDD9D0', color: '#9C9690' }}
+            className="text-xs px-3 py-1.5 rounded-lg font-medium transition-colors"
+            style={{ background: 'transparent', border: '1px solid #334155', color: '#64748B' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#475569'; e.currentTarget.style.color = '#94A3B8'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = '#334155'; e.currentTarget.style.color = '#64748B'; }}
           >
             {showDiff ? 'Show Improved' : 'Compare'}
           </button>
           <button
             onClick={handleCopy}
-            className="text-xs px-3 py-1.5 rounded-lg font-medium transition-all"
-            style={{
-              background: copied ? '#EAF2EB' : '#7A8FA6',
-              color: copied ? '#6B9E6B' : '#FFFFFF',
-              border: copied ? '1px solid #C4DCC8' : 'none',
-            }}
+            className="text-xs px-3 py-1.5 rounded-lg font-semibold transition-colors"
+            style={copied
+              ? { background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80' }
+              : { background: '#38BDF8', color: '#0F172A' }
+            }
+            onMouseEnter={e => { if (!copied) e.currentTarget.style.background = '#7DD3FC'; }}
+            onMouseLeave={e => { if (!copied) e.currentTarget.style.background = '#38BDF8'; }}
           >
             {copied ? '✓ Copied' : 'Copy'}
           </button>
@@ -44,27 +47,47 @@ export default function RewrittenEmail({ original, rewritten }) {
         {showDiff ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <p className="mb-2" style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.08em', color: '#C08088', textTransform: 'uppercase' }}>
-                Original
-              </p>
-              <div className="rounded-xl p-4 whitespace-pre-wrap leading-relaxed min-h-24"
-                style={{ background: '#F2E8EA', border: '1px solid #E0C4C8', fontSize: '12.5px', color: '#5C5750', lineHeight: '1.7' }}>
+              <p className="mb-2 text-xs font-bold tracking-widest uppercase" style={{ color: '#F87171' }}>Original</p>
+              <div
+                className="rounded-xl p-4 whitespace-pre-wrap leading-relaxed min-h-24"
+                style={{
+                  background: 'rgba(248,113,113,0.05)',
+                  border: '1px solid rgba(248,113,113,0.15)',
+                  fontSize: '12.5px',
+                  lineHeight: '1.7',
+                  color: '#94A3B8',
+                }}
+              >
                 {original}
               </div>
             </div>
             <div>
-              <p className="mb-2" style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.08em', color: '#7A9E82', textTransform: 'uppercase' }}>
-                Improved
-              </p>
-              <div className="rounded-xl p-4 whitespace-pre-wrap leading-relaxed min-h-24"
-                style={{ background: '#EAF2EB', border: '1px solid #C4DCC8', fontSize: '12.5px', color: '#5C5750', lineHeight: '1.7' }}>
+              <p className="mb-2 text-xs font-bold tracking-widest uppercase" style={{ color: '#4ADE80' }}>Improved</p>
+              <div
+                className="rounded-xl p-4 whitespace-pre-wrap leading-relaxed min-h-24"
+                style={{
+                  background: 'rgba(74,222,128,0.05)',
+                  border: '1px solid rgba(74,222,128,0.15)',
+                  fontSize: '12.5px',
+                  lineHeight: '1.7',
+                  color: '#CBD5E1',
+                }}
+              >
                 {rewritten}
               </div>
             </div>
           </div>
         ) : (
-          <div className="rounded-xl p-4 whitespace-pre-wrap leading-relaxed"
-            style={{ background: '#EAEEf2', border: '1px solid #C4CED8', fontSize: '12.5px', color: '#2A2724', lineHeight: '1.75' }}>
+          <div
+            className="rounded-xl p-4 whitespace-pre-wrap leading-relaxed"
+            style={{
+              background: 'rgba(56,189,248,0.05)',
+              border: '1px solid rgba(56,189,248,0.12)',
+              fontSize: '12.5px',
+              lineHeight: '1.75',
+              color: '#CBD5E1',
+            }}
+          >
             {rewritten}
           </div>
         )}

@@ -55,16 +55,25 @@ export default function EmailInput({ onAnalyze, loading }) {
   const charCount = emailText.length;
   const canSubmit = wordCount >= 20 && !loading;
 
+  const inputBase = {
+    background: '#0F172A',
+    border: '1px solid #334155',
+    color: '#F1F5F9',
+  };
+
   return (
-    <div className="rounded-2xl shadow-soft" style={{ background: '#FEFDFB', border: '1px solid #EDE9E3' }}>
-      <div className="px-5 pt-5 pb-4" style={{ borderBottom: '1px solid #F0EDE8' }}>
+    <div className="rounded-2xl" style={{ background: '#1E293B', border: '1px solid #334155' }}>
+      <div className="px-5 pt-5 pb-4" style={{ borderBottom: '1px solid #334155' }}>
         <div className="flex items-center justify-between">
-          <h2 className="font-serif text-base font-semibold text-ink">Paste your email</h2>
+          <h2 className="text-sm font-semibold" style={{ color: '#F1F5F9' }}>Paste your email</h2>
           <button
             type="button"
             onClick={loadExample}
             disabled={loading}
-            className="text-xs text-ink-muted hover:text-slate-warm transition-colors disabled:opacity-40"
+            className="text-xs font-medium transition-colors disabled:opacity-40"
+            style={{ color: '#64748B' }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#38BDF8'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = '#64748B'; }}
           >
             Try an example
           </button>
@@ -81,20 +90,20 @@ export default function EmailInput({ onAnalyze, loading }) {
             placeholder="Paste any cold email, recruiter message, or outreach email here..."
             rows={11}
             disabled={loading}
-            className="w-full resize-none rounded-xl p-4 text-sm text-ink leading-relaxed placeholder:text-ink-faint transition-all disabled:opacity-60 focus:outline-none"
+            className="w-full resize-none rounded-xl p-4 text-sm leading-relaxed transition-all disabled:opacity-50 focus:outline-none"
             style={{
-              background: '#FAF9F6',
-              border: '1px solid #DDD9D0',
+              ...inputBase,
               fontSize: '13.5px',
               lineHeight: '1.7',
+              caretColor: '#38BDF8',
             }}
-            onFocus={(e) => e.target.style.borderColor = '#7A8FA6'}
-            onBlur={(e) => e.target.style.borderColor = '#DDD9D0'}
+            onFocus={e => { e.target.style.borderColor = '#38BDF8'; e.target.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.08)'; }}
+            onBlur={e => { e.target.style.borderColor = '#334155'; e.target.style.boxShadow = 'none'; }}
           />
-          <div className="absolute bottom-3 right-3 flex items-center gap-2" style={{ fontSize: '11px', color: '#C4C0BA' }}>
+          <div className="absolute bottom-3 right-3 flex items-center gap-2 text-xs pointer-events-none select-none" style={{ color: '#475569' }}>
             <span>{charCount}c</span>
             <span>·</span>
-            <span className={wordCount > 0 && wordCount < 20 ? 'text-rose-dust' : ''}>
+            <span style={wordCount > 0 && wordCount < 20 ? { color: '#FCD34D' } : {}}>
               {wordCount}w{wordCount > 0 && wordCount < 20 && ` · need ${20 - wordCount} more`}
             </span>
           </div>
@@ -102,7 +111,7 @@ export default function EmailInput({ onAnalyze, loading }) {
 
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1">
-            <label className="block mb-2" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.08em', color: '#9C9690', textTransform: 'uppercase' }}>
+            <label className="block mb-2 text-xs font-semibold tracking-widest uppercase" style={{ color: '#475569' }}>
               I am the
             </label>
             <div className="flex gap-2">
@@ -111,14 +120,11 @@ export default function EmailInput({ onAnalyze, loading }) {
                   key={value}
                   type="button"
                   onClick={() => setContext(value)}
-                  className="flex-1 py-2 px-3 rounded-lg text-sm transition-all"
-                  style={{
-                    border: '1px solid',
-                    borderColor: context === value ? '#7A8FA6' : '#DDD9D0',
-                    background: context === value ? '#EAEEf2' : '#FEFDFB',
-                    color: context === value ? '#7A8FA6' : '#5C5750',
-                    fontWeight: context === value ? '500' : '400',
-                  }}
+                  className="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all"
+                  style={context === value
+                    ? { background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.3)', color: '#38BDF8' }
+                    : { background: '#0F172A', border: '1px solid #334155', color: '#64748B' }
+                  }
                 >
                   {label}
                 </button>
@@ -127,7 +133,7 @@ export default function EmailInput({ onAnalyze, loading }) {
           </div>
 
           <div className="flex-1">
-            <label className="block mb-2" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.08em', color: '#9C9690', textTransform: 'uppercase' }}>
+            <label className="block mb-2 text-xs font-semibold tracking-widest uppercase" style={{ color: '#475569' }}>
               Sender company
             </label>
             <input
@@ -135,16 +141,16 @@ export default function EmailInput({ onAnalyze, loading }) {
               value={senderCompany}
               onChange={(e) => setSenderCompany(e.target.value)}
               placeholder="e.g. Google, Infosys..."
-              className="w-full py-2 px-3 rounded-lg text-sm text-ink placeholder:text-ink-faint focus:outline-none transition-all"
-              style={{ background: '#FEFDFB', border: '1px solid #DDD9D0' }}
-              onFocus={(e) => e.target.style.borderColor = '#7A8FA6'}
-              onBlur={(e) => e.target.style.borderColor = '#DDD9D0'}
+              className="w-full py-2 px-3 rounded-lg text-sm focus:outline-none transition-all"
+              style={{ ...inputBase }}
+              onFocus={e => { e.target.style.borderColor = '#38BDF8'; e.target.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.08)'; }}
+              onBlur={e => { e.target.style.borderColor = '#334155'; e.target.style.boxShadow = 'none'; }}
             />
           </div>
         </div>
 
         <div>
-          <label className="block mb-2" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.08em', color: '#9C9690', textTransform: 'uppercase' }}>
+          <label className="block mb-2 text-xs font-semibold tracking-widest uppercase" style={{ color: '#475569' }}>
             Tags
           </label>
           <div className="flex flex-wrap gap-2">
@@ -153,14 +159,11 @@ export default function EmailInput({ onAnalyze, loading }) {
                 key={tag}
                 type="button"
                 onClick={() => toggleTag(tag)}
-                className="px-3 py-1 rounded-full text-xs transition-all"
-                style={{
-                  border: '1px solid',
-                  borderColor: tags.includes(tag) ? '#C08088' : '#DDD9D0',
-                  background: tags.includes(tag) ? '#F2E8EA' : '#FEFDFB',
-                  color: tags.includes(tag) ? '#C08088' : '#9C9690',
-                  fontWeight: tags.includes(tag) ? '500' : '400',
-                }}
+                className="px-3 py-1 rounded-full text-xs font-medium transition-all"
+                style={tags.includes(tag)
+                  ? { background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.3)', color: '#38BDF8' }
+                  : { background: 'transparent', border: '1px solid #334155', color: '#64748B' }
+                }
               >
                 {tag}
               </button>
@@ -171,11 +174,13 @@ export default function EmailInput({ onAnalyze, loading }) {
         <button
           type="submit"
           disabled={!canSubmit}
-          className="w-full py-2.5 px-6 rounded-xl text-sm font-medium transition-all disabled:cursor-not-allowed"
-          style={{
-            background: canSubmit ? '#7A8FA6' : '#EDE9E3',
-            color: canSubmit ? '#FFFFFF' : '#C4C0BA',
-          }}
+          className="w-full py-2.5 px-6 rounded-xl text-sm font-semibold transition-all"
+          style={canSubmit
+            ? { background: '#38BDF8', color: '#0F172A' }
+            : { background: '#1E293B', color: '#475569', cursor: 'not-allowed', border: '1px solid #334155' }
+          }
+          onMouseEnter={e => { if (canSubmit) e.currentTarget.style.background = '#7DD3FC'; }}
+          onMouseLeave={e => { if (canSubmit) e.currentTarget.style.background = '#38BDF8'; }}
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -188,7 +193,7 @@ export default function EmailInput({ onAnalyze, loading }) {
           ) : (
             <span className="flex items-center justify-center gap-1.5">
               Analyze Email
-              <span style={{ opacity: 0.6, fontSize: '11px' }}>⌘↵</span>
+              <span className="text-xs" style={{ opacity: 0.5 }}>⌘↵</span>
             </span>
           )}
         </button>

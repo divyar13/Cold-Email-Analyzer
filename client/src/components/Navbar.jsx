@@ -15,28 +15,33 @@ export default function Navbar() {
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
 
   return (
-    <nav style={{ background: '#FAF9F6', borderBottom: '1px solid #EDE9E3' }} className="sticky top-0 z-50">
+    <nav className="sticky top-0 z-50" style={{ background: '#0F172A', borderBottom: '1px solid #1E293B' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-2.5 shrink-0">
-              <svg className="w-5 h-5 text-slate-warm" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-              </svg>
-              <span className="font-serif font-semibold text-sm text-ink tracking-tight hidden sm:block">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#38BDF8' }}>
+                <svg className="w-4 h-4" style={{ color: '#0F172A' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+              </div>
+              <span className="font-semibold text-sm hidden sm:block tracking-tight" style={{ color: '#F1F5F9' }}>
                 Cold Email Analyzer
               </span>
             </Link>
+
             <div className="hidden md:flex items-center gap-0.5">
               {navLinks.map(({ path, label }) => (
                 <Link
                   key={path}
                   to={path}
-                  className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
-                    isActive(path)
-                      ? 'text-ink font-medium bg-cream-300'
-                      : 'text-ink-light hover:text-ink hover:bg-cream-200'
-                  }`}
+                  className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+                  style={isActive(path)
+                    ? { background: 'rgba(56,189,248,0.1)', color: '#38BDF8' }
+                    : { color: '#64748B' }
+                  }
+                  onMouseEnter={e => { if (!isActive(path)) { e.currentTarget.style.color = '#CBD5E1'; e.currentTarget.style.background = '#1E293B'; } }}
+                  onMouseLeave={e => { if (!isActive(path)) { e.currentTarget.style.color = '#64748B'; e.currentTarget.style.background = 'transparent'; } }}
                 >
                   {label}
                 </Link>
@@ -48,16 +53,18 @@ export default function Navbar() {
             {user ? (
               <div className="flex items-center gap-3">
                 <img
-                  src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=7A8FA6&color=fff&size=32`}
+                  src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=38BDF8&color=0F172A&size=32`}
                   alt={user.name}
                   className="w-7 h-7 rounded-full"
-                  style={{ border: '1px solid #DDD9D0' }}
+                  style={{ border: '2px solid #334155' }}
                 />
-                <span className="text-sm text-ink-light hidden md:block max-w-28 truncate">{user.name}</span>
+                <span className="text-sm hidden md:block max-w-28 truncate" style={{ color: '#64748B' }}>{user.name}</span>
                 <button
                   onClick={logout}
-                  className="text-xs text-ink-muted hover:text-ink px-3 py-1.5 rounded-lg transition-colors"
-                  style={{ border: '1px solid #DDD9D0' }}
+                  className="text-xs px-3 py-1.5 rounded-lg transition-colors"
+                  style={{ border: '1px solid #334155', color: '#64748B' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#F1F5F9'; e.currentTarget.style.borderColor = '#475569'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#64748B'; e.currentTarget.style.borderColor = '#334155'; }}
                 >
                   Sign out
                 </button>
@@ -65,8 +72,10 @@ export default function Navbar() {
             ) : (
               <a
                 href="/api/auth/google"
-                className="flex items-center gap-2 px-3.5 py-1.5 text-white text-sm font-medium rounded-lg transition-all hover:opacity-90"
-                style={{ background: '#7A8FA6' }}
+                className="flex items-center gap-2 px-3.5 py-1.5 text-sm font-semibold rounded-lg transition-colors"
+                style={{ background: '#38BDF8', color: '#0F172A' }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#7DD3FC'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#38BDF8'; }}
               >
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -84,9 +93,12 @@ export default function Navbar() {
         <div className="md:hidden flex gap-0.5 pb-2 overflow-x-auto">
           {navLinks.map(({ path, label }) => (
             <Link key={path} to={path}
-              className={`px-3 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all ${
-                isActive(path) ? 'text-ink font-medium bg-cream-300' : 'text-ink-light hover:text-ink hover:bg-cream-200'
-              }`}>
+              className="px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors"
+              style={isActive(path)
+                ? { background: 'rgba(56,189,248,0.1)', color: '#38BDF8' }
+                : { color: '#64748B' }
+              }
+            >
               {label}
             </Link>
           ))}
